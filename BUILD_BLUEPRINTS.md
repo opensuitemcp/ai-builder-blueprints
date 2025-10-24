@@ -6,15 +6,16 @@
 
 This document contains comprehensive blueprints for building a complete NetSuite AI Assistant. Execute these instructions step-by-step to create a production-ready application.
 
-> **📝 CRITICAL**: Throughout these blueprints, `mycustomassistant` is used as a placeholder project name. 
-> 
+> **📝 CRITICAL**: Throughout these blueprints, `mycustomassistant` is used as a placeholder project name.
+>
 > **For AI Assistants**: When implementing these blueprints, use the project name provided by the user. This name will be used in:
+>
 > - `package.json` name field
 > - Docker image names and tags
 > - Directory structure
 > - All configuration files
 > - CI/CD pipeline settings
-> 
+>
 > **For Users**: Choose your project name carefully - it will be used throughout the entire application.
 
 ### **Project Naming Convention:**

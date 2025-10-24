@@ -26,7 +26,7 @@ cd mycustomassistant
 ### 3. Tell AI to Build
 
 ```
-"Execute the blueprints in BUILD_BLUEPRINTS.md to build my NetSuite AI Assistant. 
+"Execute the blueprints in BUILD_BLUEPRINTS.md to build my NetSuite AI Assistant.
 Use the project name 'mycustomassistant' for all files, directories, and configurations."
 ```
 
