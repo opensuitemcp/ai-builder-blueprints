@@ -2,16 +2,20 @@
 
 🤖 **AI-Powered Blueprint Repository for Building Custom NetSuite AI Assistants**
 
-This repository contains comprehensive blueprints for building a production-ready NetSuite AI Assistant. Clone this repo, fork it, and use AI tools (like Cursor) to execute the blueprints and build your own customized assistant.
+This repository contains comprehensive blueprints for building a production-ready NetSuite AI Assistant. Clone this repo, rename it to your project, and use AI tools (like Cursor) to execute the blueprints and build your own customized assistant.
 
 ## 🚀 Quick Start
 
-### 1. Clone & Fork
+### 1. Clone & Customize
 
 ```bash
-git clone https://github.com/opensuitemcp/opensuitemcp.git
-cd opensuitemcp
-# Fork to your own repository
+# Clone the blueprints repository
+git clone https://github.com/opensuitemcp/ai-builder-blueprints.git mycustomassistant
+cd mycustomassistant
+
+# IMPORTANT: Rename to your project name
+# This will be used throughout the build process
+# Examples: acme-netsuite-ai, company-assistant, netsuite-helper
 ```
 
 ### 2. Open in AI-Powered Editor
@@ -22,8 +26,16 @@ cd opensuitemcp
 ### 3. Tell AI to Build
 
 ```
-"Execute the blueprints in BUILD_BLUEPRINTS.md to build my NetSuite AI Assistant"
+"Execute the blueprints in BUILD_BLUEPRINTS.md to build my NetSuite AI Assistant. 
+Use the project name 'mycustomassistant' for all files, directories, and configurations."
 ```
+
+### 4. Project Naming Tips
+
+- **Use descriptive names**: `acme-netsuite-ai`, `company-assistant`, `netsuite-helper`
+- **Avoid spaces**: Use hyphens or underscores instead
+- **Keep it short**: Easy to type and remember
+- **Make it unique**: Your assistant's identity
 
 ## 📋 What You'll Build
 

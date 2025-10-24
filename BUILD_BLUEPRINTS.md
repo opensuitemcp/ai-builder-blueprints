@@ -6,6 +6,26 @@
 
 This document contains comprehensive blueprints for building a complete NetSuite AI Assistant. Execute these instructions step-by-step to create a production-ready application.
 
+> **📝 CRITICAL**: Throughout these blueprints, `mycustomassistant` is used as a placeholder project name. 
+> 
+> **For AI Assistants**: When implementing these blueprints, use the project name provided by the user. This name will be used in:
+> - `package.json` name field
+> - Docker image names and tags
+> - Directory structure
+> - All configuration files
+> - CI/CD pipeline settings
+> 
+> **For Users**: Choose your project name carefully - it will be used throughout the entire application.
+
+### **Project Naming Convention:**
+
+Before starting, ensure you have a clear project name. This will be used consistently throughout:
+
+- **Directory name**: `mycustomassistant/`
+- **Package name**: `"name": "mycustomassistant"`
+- **Docker image**: `mycustomassistant:latest`
+- **All references**: Use the same name everywhere
+
 ### **Build Order:**
 
 1. **Next.js Setup** - Initialize project with TypeScript and Tailwind
@@ -285,7 +305,7 @@ model Endpoint {
 ## Project Structure
 
 ```
-opensuitemcp/
+mycustomassistant/
 ├── BUILD_BLUEPRINTS.md           # Comprehensive build instructions
 ├── app/
 │   ├── (auth)/
@@ -2255,7 +2275,7 @@ docker-compose down -v
 
 ```json
 {
-  "name": "opensuitemcp",
+  "name": "mycustomassistant",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -2606,7 +2626,7 @@ async function summarizeOlderMessages(messages: Message[]): Promise<string> {
 ```bash
 # Clone repository
 git clone <repo-url>
-cd opensuitemcp
+cd mycustomassistant
 
 # Install dependencies
 pnpm install
@@ -2675,7 +2695,7 @@ pnpm start
 
 ```bash
 # Build Docker image
-docker build -t opensuitemcp:latest .
+docker build -t mycustomassistant:latest .
 
 # Run with Docker Compose
 docker-compose -f docker-compose.prod.yml up -d
@@ -3158,10 +3178,10 @@ jobs:
           context: .
           push: true
           tags: |
-            yourorg/opensuitemcp:latest
-            yourorg/opensuitemcp:${{ github.sha }}
-          cache-from: type=registry,ref=yourorg/opensuitemcp:buildcache
-          cache-to: type=registry,ref=yourorg/opensuitemcp:buildcache,mode=max
+            yourorg/mycustomassistant:latest
+            yourorg/mycustomassistant:${{ github.sha }}
+          cache-from: type=registry,ref=yourorg/mycustomassistant:buildcache
+          cache-to: type=registry,ref=yourorg/mycustomassistant:buildcache,mode=max
 
   deploy:
     needs: build-docker
@@ -3579,8 +3599,9 @@ The AI provider system is designed for optimal MCP tool calling with smart model
 
 ```bash
 # 1. Initialize Next.js project
-pnpm create next-app opensuitemcp --typescript --tailwind --app
-cd opensuitemcp
+# IMPORTANT: Replace 'mycustomassistant' with your actual project name
+pnpm create next-app mycustomassistant --typescript --tailwind --app
+cd mycustomassistant
 
 # 2. Install dependencies (see package.json above)
 pnpm install
