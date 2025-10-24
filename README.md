@@ -2,11 +2,24 @@
 
 🤖 **AI-Powered Blueprint Repository for Building Custom NetSuite AI Assistants**
 
-This repository contains comprehensive blueprints for building a production-ready NetSuite AI Assistant. Clone this repo, rename it to your project, and use AI tools (like Cursor) to execute the blueprints and build your own customized assistant.
+This repository contains comprehensive blueprints for building a production-ready NetSuite AI Assistant. Fork or clone this repo, rename it to your project, and use AI tools (like Cursor) to execute the blueprints and build your own customized assistant.
 
 ## 🚀 Quick Start
 
-### 1. Clone & Customize
+### Option 1: Fork & Customize (Recommended)
+
+```bash
+# 1. Fork this repository on GitHub
+# 2. Clone your fork
+git clone https://github.com/YOUR-USERNAME/ai-builder-blueprints.git mycustomassistant
+cd mycustomassistant
+
+# 3. IMPORTANT: Rename to your project name
+# This will be used throughout the build process
+# Examples: acme-netsuite-ai, company-assistant, netsuite-helper
+```
+
+### Option 2: Clone & Customize (Simple)
 
 ```bash
 # Clone the blueprints repository
@@ -30,7 +43,22 @@ cd mycustomassistant
 Use the project name 'mycustomassistant' for all files, directories, and configurations."
 ```
 
-### 4. Project Naming Tips
+### 4. Choose Your Approach
+
+#### **Fork & Customize (Recommended)**
+- ✅ **Your own repository**: Full control and ownership
+- ✅ **Easy updates**: Pull latest blueprints when needed
+- ✅ **Contribute back**: Submit improvements via pull requests
+- ✅ **Version control**: Track your customizations
+- ✅ **Collaboration**: Share with your team
+
+#### **Clone & Customize (Simple)**
+- ✅ **Quick start**: No GitHub account needed
+- ✅ **Local development**: Build and test locally
+- ❌ **No version control**: Can't easily update blueprints
+- ❌ **No collaboration**: Harder to share with team
+
+### 5. Project Naming Tips
 
 - **Use descriptive names**: `acme-netsuite-ai`, `company-assistant`, `netsuite-helper`
 - **Avoid spaces**: Use hyphens or underscores instead
