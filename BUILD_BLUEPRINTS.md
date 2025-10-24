@@ -1,5 +1,35 @@
 # NetSuite AI Assistant - Complete Blueprint
 
+## 🤖 AI Builder Instructions
+
+**For AI Assistants (Cursor, Claude, etc.):**
+
+This document contains comprehensive blueprints for building a complete NetSuite AI Assistant. Execute these instructions step-by-step to create a production-ready application.
+
+### **Build Order:**
+
+1. **Next.js Setup** - Initialize project with TypeScript and Tailwind
+2. **Database Schema** - Set up PostgreSQL with Prisma
+3. **Authentication** - Implement NextAuth.js with NetSuite OAuth 2.0 PKCE
+4. **AI Providers** - Configure multi-provider AI system
+5. **NetSuite Integration** - Connect to native MCP REST API
+6. **UI Components** - Build chat interface with shadcn/ui
+7. **Docker Deployment** - Production-ready containerization
+
+### **Key Features to Implement:**
+
+- ✅ **OAuth 2.0 PKCE** for NetSuite authentication (no client secrets)
+- ✅ **Multi-AI Provider** support (Claude, Gemini, GPT-4o, Ollama)
+- ✅ **Self-Hosted Ollama** for privacy and cost control
+- ✅ **DuckDuckGo Search** (no API key required)
+- ✅ **Streaming Chat** with tool execution
+- ✅ **Thread Management** and settings
+- ✅ **Security Features** (encryption, rate limiting, CSRF)
+
+### **Start Building:**
+
+Execute the blueprints below to build the complete application. Each section provides detailed implementation instructions with code examples.
+
 ## Project Overview
 
 A production-ready AI assistant specifically designed for NetSuite integration via MCP (Model Context Protocol). This application provides an intelligent interface for users to interact with their NetSuite data through natural language, powered by multiple AI providers with smart model selection optimized for tool calling.
@@ -255,7 +285,8 @@ model Endpoint {
 ## Project Structure
 
 ```
-netsuite-assistant/
+opensuitemcp/
+├── BUILD_BLUEPRINTS.md           # Comprehensive build instructions
 ├── app/
 │   ├── (auth)/
 │   │   ├── login/
@@ -2224,7 +2255,7 @@ docker-compose down -v
 
 ```json
 {
-  "name": "netsuite-assistant",
+  "name": "opensuitemcp",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -2575,7 +2606,7 @@ async function summarizeOlderMessages(messages: Message[]): Promise<string> {
 ```bash
 # Clone repository
 git clone <repo-url>
-cd netsuite-assistant
+cd opensuitemcp
 
 # Install dependencies
 pnpm install
@@ -2644,7 +2675,7 @@ pnpm start
 
 ```bash
 # Build Docker image
-docker build -t netsuite-assistant:latest .
+docker build -t opensuitemcp:latest .
 
 # Run with Docker Compose
 docker-compose -f docker-compose.prod.yml up -d
@@ -3127,10 +3158,10 @@ jobs:
           context: .
           push: true
           tags: |
-            yourorg/netsuite-assistant:latest
-            yourorg/netsuite-assistant:${{ github.sha }}
-          cache-from: type=registry,ref=yourorg/netsuite-assistant:buildcache
-          cache-to: type=registry,ref=yourorg/netsuite-assistant:buildcache,mode=max
+            yourorg/opensuitemcp:latest
+            yourorg/opensuitemcp:${{ github.sha }}
+          cache-from: type=registry,ref=yourorg/opensuitemcp:buildcache
+          cache-to: type=registry,ref=yourorg/opensuitemcp:buildcache,mode=max
 
   deploy:
     needs: build-docker
@@ -3547,7 +3578,32 @@ The AI provider system is designed for optimal MCP tool calling with smart model
 ### Ready to build? Start with:
 
 ```bash
-pnpm create next-app netsuite-assistant --typescript --tailwind --app
-cd netsuite-assistant
-# Follow the setup instructions above
+# 1. Initialize Next.js project
+pnpm create next-app opensuitemcp --typescript --tailwind --app
+cd opensuitemcp
+
+# 2. Install dependencies (see package.json above)
+pnpm install
+
+# 3. Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your credentials
+
+# 4. Set up database
+pnpm prisma db push
+
+# 5. Start development
+pnpm dev
 ```
+
+## 🎯 AI Builder Summary
+
+**This blueprint repository provides everything needed to build a production-ready NetSuite AI Assistant:**
+
+- **Complete Architecture** with Next.js 14+, TypeScript, and Tailwind
+- **NetSuite Integration** with OAuth 2.0 PKCE and native MCP REST API
+- **Multi-AI Provider Support** including self-hosted Ollama
+- **Production Deployment** with Docker and security features
+- **Comprehensive Documentation** with step-by-step implementation
+
+**For AI Assistants:** Execute the blueprints above to build the complete application. Each section provides detailed code examples and implementation instructions.
