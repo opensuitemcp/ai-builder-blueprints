@@ -46,6 +46,7 @@ Use the project name 'mycustomassistant' for all files, directories, and configu
 ### 4. Choose Your Approach
 
 #### **Fork & Customize (Recommended)**
+
 - ✅ **Your own repository**: Full control and ownership
 - ✅ **Easy updates**: Pull latest blueprints when needed
 - ✅ **Contribute back**: Submit improvements via pull requests
@@ -53,6 +54,7 @@ Use the project name 'mycustomassistant' for all files, directories, and configu
 - ✅ **Collaboration**: Share with your team
 
 #### **Clone & Customize (Simple)**
+
 - ✅ **Quick start**: No GitHub account needed
 - ✅ **Local development**: Build and test locally
 - ❌ **No version control**: Can't easily update blueprints
