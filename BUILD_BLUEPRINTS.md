@@ -39,14 +39,14 @@ Before starting, ensure you have a clear project name. This will be used consist
 
 > **🎯 IMPORTANT**: Build in phases and stop after each phase for user inspection and testing.
 
-#### **Phase 1: Foundation & Frontend** 🏗️
+#### **Phase 1: Foundation & Setup** 🏗️
 
 1. **Next.js Setup** - Initialize project with TypeScript and Tailwind
 2. **Database Schema** - Set up PostgreSQL with Prisma
 3. **Basic UI Components** - Build core interface with shadcn/ui
-4. **Authentication UI** - Login/register pages
+4. **Environment Configuration** - Set up environment variables
 
-**🛑 STOP HERE** - Let user test basic app structure and UI
+**🛑 STOP HERE** - Let user test basic app structure
 
 > **AI Assistant Instructions**: After completing Phase 1, stop and ask the user to:
 >
@@ -58,8 +58,9 @@ Before starting, ensure you have a clear project name. This will be used consist
 #### **Phase 2: Authentication & Security** 🔐
 
 5. **NextAuth.js Setup** - Configure authentication system
-6. **NetSuite OAuth 2.0 PKCE** - Implement OAuth flow
-7. **Security Features** - Encryption, rate limiting, CSRF protection
+6. **Authentication UI** - Login/register pages
+7. **NetSuite OAuth 2.0 PKCE** - Implement OAuth flow
+8. **Security Features** - Encryption, rate limiting, CSRF protection
 
 **🛑 STOP HERE** - Let user test NetSuite authentication
 
@@ -70,41 +71,41 @@ Before starting, ensure you have a clear project name. This will be used consist
 > - Check that user sessions are being created
 > - Confirm security features are functioning before proceeding
 
-#### **Phase 3: AI Integration** 🤖
+#### **Phase 3: NetSuite Integration** 📊
 
-8. **AI Provider Configuration** - Set up multi-provider system
-9. **Ollama Integration** - Configure self-hosted AI option
-10. **Model Selection Logic** - Implement smart provider selection
-
-**🛑 STOP HERE** - Let user test AI provider configuration
-
-> **AI Assistant Instructions**: After completing Phase 3, stop and ask the user to:
->
-> - Test AI provider configuration in the settings
-> - Verify Ollama connection (if using self-hosted)
-> - Check that model selection is working
-> - Confirm AI providers are properly configured before proceeding
-
-#### **Phase 4: NetSuite Integration** 📊
-
-11. **NetSuite MCP REST API** - Connect to native NetSuite API
-12. **Tool Implementation** - SuiteQL, saved searches, record operations
-13. **Web Search Integration** - DuckDuckGo search functionality
+9. **NetSuite MCP REST API** - Connect to native NetSuite API
+10. **Tool Implementation** - SuiteQL, saved searches, record operations
+11. **Web Search Integration** - DuckDuckGo search functionality
 
 **🛑 STOP HERE** - Let user test NetSuite data access
 
-> **AI Assistant Instructions**: After completing Phase 4, stop and ask the user to:
+> **AI Assistant Instructions**: After completing Phase 3, stop and ask the user to:
 >
 > - Test NetSuite data access with a simple query
 > - Verify SuiteQL queries are working
 > - Check that saved searches can be executed
 > - Confirm web search functionality is working before proceeding
 
+#### **Phase 4: AI Integration** 🤖
+
+12. **AI Provider Configuration** - Set up multi-provider system
+13. **Ollama Integration** - Configure self-hosted AI option
+14. **Model Selection Logic** - Implement smart provider selection
+
+**🛑 STOP HERE** - Let user test AI provider configuration
+
+> **AI Assistant Instructions**: After completing Phase 4, stop and ask the user to:
+>
+> - Test AI provider configuration in the settings
+> - Verify Ollama connection (if using self-hosted)
+> - Check that model selection is working
+> - Confirm AI providers are properly configured before proceeding
+
 #### **Phase 5: Chat Interface** 💬
 
-14. **Chat UI Components** - Build streaming chat interface
-15. **Thread Management** - Implement conversation threads
-16. **Settings Panel** - User preferences and configuration
+15. **Chat UI Components** - Build streaming chat interface
+16. **Thread Management** - Implement conversation threads
+17. **Settings Panel** - User preferences and configuration
 
 **🛑 STOP HERE** - Let user test complete chat functionality
 
@@ -117,9 +118,18 @@ Before starting, ensure you have a clear project name. This will be used consist
 
 #### **Phase 6: Production Deployment** 🚀
 
-17. **Docker Configuration** - Production-ready containerization
-18. **CI/CD Pipeline** - Automated deployment
-19. **Monitoring & Logging** - Production observability
+18. **Docker Configuration** - Production-ready containerization
+19. **CI/CD Pipeline** - Automated deployment
+20. **Monitoring & Logging** - Production observability
+
+**🛑 STOP HERE** - Let user test production deployment
+
+> **AI Assistant Instructions**: After completing Phase 6, stop and ask the user to:
+>
+> - Test the Docker deployment
+> - Verify CI/CD pipeline is working
+> - Check that monitoring and logging are functioning
+> - Confirm the application is production-ready
 
 **✅ COMPLETE** - Production-ready NetSuite AI Assistant
 
