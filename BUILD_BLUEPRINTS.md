@@ -648,8 +648,9 @@ declare module "next-auth/jwt" {
 ### 1. AI Provider Configuration
 
 > **📝 IMPORTANT**: AI SDK v3 uses environment variables for API keys, NOT direct parameter passing. Users must set:
+>
 > - `ANTHROPIC_API_KEY` in `.env.local` for Claude
-> - `GOOGLE_AI_API_KEY` in `.env.local` for Gemini  
+> - `GOOGLE_AI_API_KEY` in `.env.local` for Gemini
 > - `OPENAI_API_KEY` in `.env.local` for GPT-4o
 >
 > These keys are read automatically by the AI SDK providers.
@@ -3132,20 +3133,12 @@ import crypto from "crypto";
 const ALGORITHM = "aes-256-gcm";
 
 // Validation: Reject placeholder and common insecure values
-const PLACEHOLDER_VALUES = [
-  "your-32-byte-encryption-key",
-  "change-this",
-  "placeholder",
-  "",
-];
+const PLACEHOLDER_VALUES = ["your-32-byte-encryption-key", "change-this", "placeholder", ""];
 
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
 
 if (!ENCRYPTION_KEY || PLACEHOLDER_VALUES.includes(ENCRYPTION_KEY)) {
-  throw new Error(
-    "ENCRYPTION_KEY must be set to a secure, randomly generated value. " +
-      "Generate one with: openssl rand -base64 32"
-  );
+  throw new Error("ENCRYPTION_KEY must be set to a secure, randomly generated value. " + "Generate one with: openssl rand -base64 32");
 }
 
 // Assert to TypeScript that ENCRYPTION_KEY is defined and valid
