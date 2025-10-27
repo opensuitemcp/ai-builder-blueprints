@@ -14,6 +14,16 @@ This document contains comprehensive blueprints for building a complete NetSuite
 > - Make customizations at each stage
 > - Build confidence in the application
 
+> **⚠️ CRITICAL FILE RESTRICTION**: Do NOT create any files not explicitly listed in these blueprints. This includes:
+>
+> - NO status files (e.g., `PHASE1_COMPLETE.md`, `PHASE2_STATUS.md`)
+> - NO documentation files unless specified
+> - NO helper files unless specified
+> - NO completion markers or checklists
+> - Only create the exact files specified in each implementation section
+>
+> **Rationale**: These extra files clutter the project and confuse users. Stick to the blueprint specifications.
+
 > **📝 CRITICAL**: Throughout these blueprints, `mycustomassistant` is used as a placeholder project name.
 >
 > **For AI Assistants**: When implementing these blueprints, use the project name provided by the user. This name will be used in:
@@ -2120,11 +2130,12 @@ function convertJSONSchemaToZod(schema: any): z.ZodObject<any> {
 // app/api/auth/netsuite/authorize/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { generateAuthUrl } from "@/lib/netsuite/oauth";
 import { prisma } from "@/lib/db/client";
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -2504,8 +2515,8 @@ docker-compose down -v
     "@ai-sdk/google": "^0.0.50",
     "@ai-sdk/openai": "^0.0.50",
 
-    "next-auth": "^5.0.0-beta.20",
-    "@auth/prisma-adapter": "^2.4.0",
+    "next-auth": "^4.24.0",
+    "@next-auth/prisma-adapter": "^1.0.7",
     "bcrypt": "^5.1.1",
 
     "zod": "^3.23.0",
