@@ -76,6 +76,7 @@ pnpm dlx shadcn@latest add button card input textarea select dialog sheet tabs b
 - ✅ **Label** - Form labels
 
 **What NOT to create:**
+
 - ❌ NO custom input components (use shadcn Input)
 - ❌ NO custom button components (use shadcn Button)
 - ❌ NO custom modal/dialog systems (use shadcn Dialog)
@@ -85,6 +86,7 @@ pnpm dlx shadcn@latest add button card input textarea select dialog sheet tabs b
 - ❌ NO custom notification systems (use shadcn Alert + Toast)
 
 **Why shadcn/ui only:**
+
 - Consistent design language across the app
 - Accessibility built-in (ARIA compliance)
 - Theme support (dark/light mode)
