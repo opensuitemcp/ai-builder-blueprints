@@ -1095,6 +1095,7 @@ export async function cacheSearch(query: string, results: any) {
 4. **SettingsContext** - User preferences (theme, display options)
 
 **Context Structure:**
+
 ```typescript
 // lib/contexts/auth-context.tsx
 "use client";
@@ -2003,11 +2004,13 @@ export function OllamaPanel() {
 When users interact with the chat interface, the AI automatically invokes NetSuite MCP tools based on user requests. Here's how it works:
 
 **Example User Request:**
+
 ```
 User: "Run a SuiteQL query to get all customers created in the last 30 days"
 ```
 
 **AI Tool Invocation Flow:**
+
 1. AI determines SuiteQL tool is needed
 2. AI constructs tool call with parameters:
    ```json
@@ -2023,6 +2026,7 @@ User: "Run a SuiteQL query to get all customers created in the last 30 days"
 5. AI presents results to user in natural language
 
 **Tool Invocation Pattern:**
+
 ```typescript
 // AI automatically invokes tools based on context
 const toolCalls = [
@@ -2030,9 +2034,9 @@ const toolCalls = [
     toolCallId: "call_123",
     toolName: "run_suiteql_query",
     args: {
-      query: "SELECT * FROM customer"
-    }
-  }
+      query: "SELECT * FROM customer",
+    },
+  },
 ];
 
 // API route processes tool calls
@@ -2238,19 +2242,20 @@ export async function GET(req: NextRequest) {
 
 **Environment Variable Reference Table:**
 
-| Variable | Required | Purpose | Example |
-|----------|----------|---------|---------|
-| `DATABASE_URL` | ✅ Yes | PostgreSQL connection string | `postgresql://user:pass@localhost:5432/db` |
-| `NEXTAUTH_SECRET` | ✅ Yes | NextAuth session encryption | `openssl rand -base64 32` |
-| `NEXTAUTH_URL` | ✅ Yes | Application base URL | `http://localhost:3000` |
-| `ENCRYPTION_KEY` | ✅ Yes | Token encryption key | `openssl rand -base64 32` |
-| `REDIS_URL` | ⚠️ Optional | Redis cache (recommended) | `redis://localhost:6379` |
-| `ANTHROPIC_API_KEY` | ⚠️ Optional | Claude API key | User provides |
-| `GOOGLE_AI_API_KEY` | ⚠️ Optional | Gemini API key | User provides |
-| `OPENAI_API_KEY` | ⚠️ Optional | GPT-4o API key | User provides |
-| `NODE_ENV` | ⚠️ Optional | Environment mode | `development` or `production` |
+| Variable            | Required    | Purpose                      | Example                                    |
+| ------------------- | ----------- | ---------------------------- | ------------------------------------------ |
+| `DATABASE_URL`      | ✅ Yes      | PostgreSQL connection string | `postgresql://user:pass@localhost:5432/db` |
+| `NEXTAUTH_SECRET`   | ✅ Yes      | NextAuth session encryption  | `openssl rand -base64 32`                  |
+| `NEXTAUTH_URL`      | ✅ Yes      | Application base URL         | `http://localhost:3000`                    |
+| `ENCRYPTION_KEY`    | ✅ Yes      | Token encryption key         | `openssl rand -base64 32`                  |
+| `REDIS_URL`         | ⚠️ Optional | Redis cache (recommended)    | `redis://localhost:6379`                   |
+| `ANTHROPIC_API_KEY` | ⚠️ Optional | Claude API key               | User provides                              |
+| `GOOGLE_AI_API_KEY` | ⚠️ Optional | Gemini API key               | User provides                              |
+| `OPENAI_API_KEY`    | ⚠️ Optional | GPT-4o API key               | User provides                              |
+| `NODE_ENV`          | ⚠️ Optional | Environment mode             | `development` or `production`              |
 
 **Generate Required Keys:**
+
 ```bash
 # Generate NEXTAUTH_SECRET
 openssl rand -base64 32
