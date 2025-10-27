@@ -86,6 +86,7 @@ Before starting, ensure you have a clear project name. This will be used consist
 > "IMPORTANT: You copied `.env.example` to `.env.local`, but you MUST edit `.env.local` and replace the placeholder values with real values:
 >
 > 1. Generate secure keys:
+>
 >    ```bash
 >    openssl rand -base64 32  # Copy this for NEXTAUTH_SECRET
 >    openssl rand -base64 32  # Copy this for ENCRYPTION_KEY
@@ -104,21 +105,25 @@ Before starting, ensure you have a clear project name. This will be used consist
 > "Phase 1 is complete. Please test the following to ensure everything is working:
 >
 > 1. **Start the development server:**
+>
 >    ```bash
 >    pnpm dev
 >    ```
 >
 > 2. **Check browser for errors:**
+>
 >    - Open http://localhost:3000
 >    - Open browser DevTools (F12) and check Console tab for errors
 >    - Look for any red error messages
 >
 > 3. **Check terminal for errors:**
+>
 >    - Look at the terminal running `pnpm dev`
 >    - Check for any compilation errors (TypeScript or ESLint)
 >    - Check for any runtime errors
 >
 > 4. **Verify database connection:**
+>
 >    - Check the terminal for any database connection errors
 >    - If using Docker, verify container is running: `docker ps`
 >
@@ -127,6 +132,7 @@ Before starting, ensure you have a clear project name. This will be used consist
 >    - Check that UI renders correctly (buttons, forms, etc.)
 >
 > Please confirm:
+>
 > - ✅ No browser console errors
 > - ✅ No terminal errors
 > - ✅ Database connection successful
@@ -496,8 +502,12 @@ mycustomassistant/
 │   │       └── page.tsx         # Settings modal/page
 │   ├── api/
 │   │   ├── auth/
-│   │   │   └── [...nextauth]/
-│   │   │       └── route.ts
+│   │   │   ├── [...nextauth]/
+│   │   │   │   └── route.ts
+│   │   │   └── netsuite/
+│   │   │       ├── route.ts       # NetSuite OAuth authorization
+│   │   │       └── callback/
+│   │   │           └── route.ts   # NetSuite OAuth callback
 │   │   ├── chat/
 │   │   │   └── route.ts         # Main chat streaming endpoint
 │   │   ├── threads/
@@ -636,6 +646,13 @@ declare module "next-auth/jwt" {
 **Why this is needed:** NextAuth v4 doesn't include `id` property in Session by default. This extends the types to add it.
 
 ### 1. AI Provider Configuration
+
+> **📝 IMPORTANT**: AI SDK v3 uses environment variables for API keys, NOT direct parameter passing. Users must set:
+> - `ANTHROPIC_API_KEY` in `.env.local` for Claude
+> - `GOOGLE_AI_API_KEY` in `.env.local` for Gemini  
+> - `OPENAI_API_KEY` in `.env.local` for GPT-4o
+>
+> These keys are read automatically by the AI SDK providers.
 
 ```typescript
 // lib/ai/providers.ts
@@ -3113,7 +3130,27 @@ describe("Chat API", () => {
 import crypto from "crypto";
 
 const ALGORITHM = "aes-256-gcm";
-const KEY = Buffer.from(process.env.ENCRYPTION_KEY!, "base64");
+
+// Validation: Reject placeholder and common insecure values
+const PLACEHOLDER_VALUES = [
+  "your-32-byte-encryption-key",
+  "change-this",
+  "placeholder",
+  "",
+];
+
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
+
+if (!ENCRYPTION_KEY || PLACEHOLDER_VALUES.includes(ENCRYPTION_KEY)) {
+  throw new Error(
+    "ENCRYPTION_KEY must be set to a secure, randomly generated value. " +
+      "Generate one with: openssl rand -base64 32"
+  );
+}
+
+// Assert to TypeScript that ENCRYPTION_KEY is defined and valid
+const ENCRYPTION_KEY_ASSERTED: string = ENCRYPTION_KEY;
+const KEY = Buffer.from(ENCRYPTION_KEY_ASSERTED, "base64");
 
 export function encrypt(text: string): string {
   const iv = crypto.randomBytes(16);
