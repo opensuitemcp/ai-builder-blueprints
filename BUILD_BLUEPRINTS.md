@@ -81,12 +81,58 @@ Before starting, ensure you have a clear project name. This will be used consist
 >
 > Replace `mycustomassistant` with the user's actual project name throughout.
 
-> **AI Assistant Instructions**: After completing Phase 1, stop and ask the user to:
+> **AI Assistant Instructions - CRITICAL Environment Setup**: After copying `.env.example` to `.env.local`, you MUST edit it with actual values:
 >
-> - Test the basic app by running `pnpm dev`
-> - Verify the UI components are working
-> - Check that the database connection is established
-> - Confirm they're happy with the foundation before proceeding
+> "IMPORTANT: You copied `.env.example` to `.env.local`, but you MUST edit `.env.local` and replace the placeholder values with real values:
+>
+> 1. Generate secure keys:
+>    ```bash
+>    openssl rand -base64 32  # Copy this for NEXTAUTH_SECRET
+>    openssl rand -base64 32  # Copy this for ENCRYPTION_KEY
+>    ```
+>
+> 2. Update `.env.local` with:
+>    - `DATABASE_URL` - Your PostgreSQL connection string (from step above)
+>    - `NEXTAUTH_SECRET` - Use the first generated key
+>    - `ENCRYPTION_KEY` - Use the second generated key
+>    - `NEXTAUTH_URL` - Should be `http://localhost:3000`
+>
+> DO NOT use the placeholder values like 'your-secret-key-here' or the app will fail!"
+
+> **AI Assistant Instructions**: After completing Phase 1, stop and ask the user to test thoroughly:
+>
+> "Phase 1 is complete. Please test the following to ensure everything is working:
+>
+> 1. **Start the development server:**
+>    ```bash
+>    pnpm dev
+>    ```
+>
+> 2. **Check browser for errors:**
+>    - Open http://localhost:3000
+>    - Open browser DevTools (F12) and check Console tab for errors
+>    - Look for any red error messages
+>
+> 3. **Check terminal for errors:**
+>    - Look at the terminal running `pnpm dev`
+>    - Check for any compilation errors (TypeScript or ESLint)
+>    - Check for any runtime errors
+>
+> 4. **Verify database connection:**
+>    - Check the terminal for any database connection errors
+>    - If using Docker, verify container is running: `docker ps`
+>
+> 5. **Test UI components:**
+>    - Try to navigate to different pages
+>    - Check that UI renders correctly (buttons, forms, etc.)
+>
+> Please confirm:
+> - ✅ No browser console errors
+> - ✅ No terminal errors
+> - ✅ Database connection successful
+> - ✅ UI components render correctly
+>
+> Once all checks pass, we'll proceed to Phase 2 (Authentication)."
 
 #### **Phase 2: Authentication & Security** 🔐
 
@@ -2579,10 +2625,10 @@ docker-compose down -v
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "db:push": "prisma db push",
-    "db:migrate": "prisma migrate dev",
-    "db:studio": "prisma studio",
-    "db:seed": "tsx prisma/seed.ts",
+    "db:push": "dotenv -e .env.local -- prisma db push",
+    "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
+    "db:studio": "dotenv -e .env.local -- prisma studio",
+    "db:seed": "dotenv -e .env.local -- tsx prisma/seed.ts",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "dependencies": {
@@ -2639,6 +2685,7 @@ docker-compose down -v
     "tailwindcss": "^3.4.0",
     "postcss": "^8.4.0",
     "autoprefixer": "^10.4.0",
+    "dotenv-cli": "^7.4.0",
 
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.0",
