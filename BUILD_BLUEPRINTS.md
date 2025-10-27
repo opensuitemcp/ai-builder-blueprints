@@ -346,6 +346,7 @@ model NetSuiteAuth {
   clientId String
   tokenId String?
   tokenSecret String? @db.Text // Encrypted
+  codeVerifier String? // Store PKCE code verifier temporarily
 
   isActive Boolean @default(true)
   lastValidated DateTime?
@@ -2173,18 +2174,24 @@ export async function GET(req: NextRequest) {
   // Generate state parameter for CSRF protection
   const state = crypto.randomUUID();
 
-  // Store OAuth configuration temporarily (PKCE - No client secret needed)
+  // Generate code verifier for PKCE
+  const codeVerifier = crypto.randomBytes(32).toString("base64url");
+  const codeChallenge = await generateCodeChallenge(codeVerifier);
+
+  // Store OAuth configuration with code verifier (PKCE - No client secret needed)
   await prisma.netSuiteAuth.upsert({
     where: { userId: session.user.id },
     update: {
       accountId,
       clientId,
+      codeVerifier, // Store for callback
       isActive: false,
     },
     create: {
       userId: session.user.id,
       accountId,
       clientId,
+      codeVerifier, // Store for callback
       isActive: false,
     },
   });
@@ -2207,14 +2214,16 @@ export async function GET(req: NextRequest) {
 // app/api/auth/netsuite/callback/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { exchangeCodeForTokens } from "@/lib/netsuite/oauth";
 import { prisma } from "@/lib/db/client";
 import { encrypt } from "@/lib/crypto/encryption";
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession();
+  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+  const session = await getServerSession(authOptions);
   if (!session?.user) {
-    return NextResponse.redirect("/login");
+    return NextResponse.redirect(`${baseUrl}/login`);
   }
 
   const { searchParams } = new URL(req.url);
@@ -2223,11 +2232,11 @@ export async function GET(req: NextRequest) {
   const error = searchParams.get("error");
 
   if (error) {
-    return NextResponse.redirect(`/settings?error=${encodeURIComponent(error)}`);
+    return NextResponse.redirect(`${baseUrl}/settings?error=${encodeURIComponent(error)}`);
   }
 
   if (!code) {
-    return NextResponse.redirect("/settings?error=No authorization code received");
+    return NextResponse.redirect(`${baseUrl}/settings?error=No authorization code received`);
   }
 
   try {
@@ -2237,7 +2246,11 @@ export async function GET(req: NextRequest) {
     });
 
     if (!netsuiteAuth) {
-      return NextResponse.redirect("/settings?error=No OAuth configuration found");
+      return NextResponse.redirect(`${baseUrl}/settings?error=No OAuth configuration found`);
+    }
+
+    if (!netsuiteAuth.codeVerifier) {
+      return NextResponse.redirect(`${baseUrl}/settings?error=Code verifier not found`);
     }
 
     // Exchange code for tokens (PKCE - No client secret needed)
@@ -2249,24 +2262,26 @@ export async function GET(req: NextRequest) {
         redirectUri: `${process.env.NEXTAUTH_URL}/api/auth/netsuite/callback`,
         scope: "mcp",
       },
-      state
-    ); // In production, retrieve stored code_verifier
+      state,
+      netsuiteAuth.codeVerifier // Use stored code verifier
+    );
 
-    // Store encrypted tokens
+    // Store encrypted tokens and clear code verifier
     await prisma.netSuiteAuth.update({
       where: { userId: session.user.id },
       data: {
         tokenId: encrypt(tokens.accessToken),
         tokenSecret: encrypt(tokens.refreshToken),
+        codeVerifier: null, // Clear after use
         isActive: true,
         lastValidated: new Date(),
       },
     });
 
-    return NextResponse.redirect("/settings?success=NetSuite connected successfully");
+    return NextResponse.redirect(`${baseUrl}/settings?success=NetSuite connected successfully`);
   } catch (error) {
     console.error("NetSuite OAuth callback error:", error);
-    return NextResponse.redirect(`/settings?error=${encodeURIComponent(error.message)}`);
+    return NextResponse.redirect(`${baseUrl}/settings?error=${encodeURIComponent(error.message)}`);
   }
 }
 ```
