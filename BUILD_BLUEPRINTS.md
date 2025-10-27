@@ -45,6 +45,52 @@ Before starting, ensure you have a clear project name. This will be used consist
 - **Docker image**: `mycustomassistant:latest`
 - **All references**: Use the same name everywhere
 
+### **shadcn/ui Component Library (CRITICAL)**
+
+> **⚠️ MANDATORY**: This application MUST use **ONLY shadcn/ui components** for all UI elements.
+
+**Setup shadcn/ui with MCP integration:**
+
+```bash
+# Initialize shadcn/ui with MCP support for Cursor
+pnpm dlx shadcn@latest mcp init --client cursor
+
+# Add required components as needed
+pnpm dlx shadcn@latest add button card input textarea select dialog sheet tabs badge alert
+```
+
+**Available shadcn/ui components to use:**
+
+- ✅ **Button** - All buttons
+- ✅ **Card** - Settings panels, content containers
+- ✅ **Input** - Text inputs, search fields
+- ✅ **Textarea** - Chat message input
+- ✅ **Select** - Dropdowns, model selection
+- ✅ **Dialog** - Modals, settings dialogs
+- ✅ **Sheet** - Thread sidebar (slide-in panel)
+- ✅ **Tabs** - Settings panels, navigation
+- ✅ **Badge** - Status indicators, tags
+- ✅ **Alert** - Notifications, warnings
+- ✅ **Avatar** - User profile images
+- ✅ **Separator** - Visual dividers
+- ✅ **Label** - Form labels
+
+**What NOT to create:**
+- ❌ NO custom input components (use shadcn Input)
+- ❌ NO custom button components (use shadcn Button)
+- ❌ NO custom modal/dialog systems (use shadcn Dialog)
+- ❌ NO custom sidebar components (use shadcn Sheet)
+- ❌ NO custom form components (use shadcn Input + Label)
+- ❌ NO custom status indicators (use shadcn Badge)
+- ❌ NO custom notification systems (use shadcn Alert + Toast)
+
+**Why shadcn/ui only:**
+- Consistent design language across the app
+- Accessibility built-in (ARIA compliance)
+- Theme support (dark/light mode)
+- Better UX with tested patterns
+- Easier maintenance with standardized components
+
 ### **Phased Build Approach:**
 
 > **🎯 IMPORTANT**: Build in phases and stop after each phase for user inspection and testing.
