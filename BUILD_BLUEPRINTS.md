@@ -1083,7 +1083,38 @@ export async function cacheSearch(query: string, results: any) {
 }
 ```
 
-### 5. Chat Interface Component
+### 5. State Management
+
+> **📝 IMPORTANT**: Use **React Context API** for global state management throughout the application.
+
+**Required Global Contexts:**
+
+1. **AuthContext** - User session and authentication state
+2. **MCPToolsContext** - Available NetSuite MCP tools
+3. **ModelConfigContext** - Selected AI provider and model
+4. **SettingsContext** - User preferences (theme, display options)
+
+**Context Structure:**
+```typescript
+// lib/contexts/auth-context.tsx
+"use client";
+import { createContext, useContext } from "react";
+
+interface AuthContextType {
+  user: User | null;
+  isAuthenticated: boolean;
+  session: Session | null;
+}
+
+export const AuthContext = createContext<AuthContextType | null>(null);
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useAuth must be used within AuthProvider");
+  return context;
+}
+```
+
+### 6. Chat Interface Component
 
 ```typescript
 // components/chat/ChatInterface.tsx
@@ -1128,7 +1159,7 @@ export function ChatInterface({ threadId }: { threadId: string }) {
 }
 ```
 
-### 6. Thread Sidebar Component
+### 7. Thread Sidebar Component
 
 ```typescript
 // components/sidebar/ThreadSidebar.tsx
@@ -1180,7 +1211,7 @@ export function ThreadSidebar() {
 }
 ```
 
-### 7. Settings Modal
+### 8. Settings Modal
 
 ```typescript
 // components/settings/SettingsModal.tsx
@@ -1245,7 +1276,7 @@ export function SettingsModal({ open, onClose }: Props) {
 }
 ```
 
-### 8. Markdown Renderer with Code Blocks
+### 9. Markdown Renderer with Code Blocks
 
 ```typescript
 // components/markdown/MarkdownRenderer.tsx
@@ -1295,7 +1326,7 @@ export function MarkdownRenderer({ content }: { content: string }) {
 }
 ```
 
-### 9. Code Block Component
+### 10. Code Block Component
 
 ```typescript
 // components/markdown/CodeBlock.tsx
@@ -1338,7 +1369,7 @@ export function CodeBlock({ code, language }: Props) {
 }
 ```
 
-### 10. NetSuite MCP Integration
+### 11. NetSuite MCP Integration
 
 #### Available MCP Tools Fetcher
 
@@ -1527,7 +1558,7 @@ function base64URLEncode(buffer: Uint8Array): string {
 }
 ```
 
-### 11. NetSuite MCP REST API Client
+### 12. NetSuite MCP REST API Client
 
 ```typescript
 // lib/netsuite/mcp-client.ts
@@ -1650,7 +1681,7 @@ export async function createNetSuiteMCPClient(userId: string): Promise<NetSuiteM
 }
 ```
 
-### 12. Ollama Self-Hosted AI Integration
+### 13. Ollama Self-Hosted AI Integration
 
 ```typescript
 // lib/ai/ollama-client.ts
@@ -1965,7 +1996,53 @@ export function OllamaPanel() {
 }
 ```
 
-### 13. NetSuite MCP Tools Integration
+### 14. Tool Invocation Contract
+
+**How AI Uses NetSuite Tools in Conversations:**
+
+When users interact with the chat interface, the AI automatically invokes NetSuite MCP tools based on user requests. Here's how it works:
+
+**Example User Request:**
+```
+User: "Run a SuiteQL query to get all customers created in the last 30 days"
+```
+
+**AI Tool Invocation Flow:**
+1. AI determines SuiteQL tool is needed
+2. AI constructs tool call with parameters:
+   ```json
+   {
+     "tool_name": "run_suiteql_query",
+     "parameters": {
+       "query": "SELECT id, entityid, datecreated FROM customer WHERE datecreated > CURDATE() - 30"
+     }
+   }
+   ```
+3. API route receives tool call and executes via NetSuite MCP client
+4. Results returned to AI for formatting
+5. AI presents results to user in natural language
+
+**Tool Invocation Pattern:**
+```typescript
+// AI automatically invokes tools based on context
+const toolCalls = [
+  {
+    toolCallId: "call_123",
+    toolName: "run_suiteql_query",
+    args: {
+      query: "SELECT * FROM customer"
+    }
+  }
+];
+
+// API route processes tool calls
+for (const toolCall of toolCalls) {
+  const result = await executeNetSuiteTool(toolCall.toolName, toolCall.args);
+  // Return result to AI for response generation
+}
+```
+
+### 15. NetSuite MCP Tools Integration
 
 ```typescript
 // lib/mcp/tools.ts
@@ -2033,7 +2110,7 @@ function convertJSONSchemaToZod(schema: any): z.ZodObject<any> {
 }
 ```
 
-### 14. NetSuite OAuth API Routes
+### 16. NetSuite OAuth API Routes
 
 ```typescript
 // app/api/auth/netsuite/authorize/route.ts
@@ -2157,7 +2234,30 @@ export async function GET(req: NextRequest) {
 }
 ```
 
-### 15. Environment Variables
+### 17. Environment Variables & Setup
+
+**Environment Variable Reference Table:**
+
+| Variable | Required | Purpose | Example |
+|----------|----------|---------|---------|
+| `DATABASE_URL` | ✅ Yes | PostgreSQL connection string | `postgresql://user:pass@localhost:5432/db` |
+| `NEXTAUTH_SECRET` | ✅ Yes | NextAuth session encryption | `openssl rand -base64 32` |
+| `NEXTAUTH_URL` | ✅ Yes | Application base URL | `http://localhost:3000` |
+| `ENCRYPTION_KEY` | ✅ Yes | Token encryption key | `openssl rand -base64 32` |
+| `REDIS_URL` | ⚠️ Optional | Redis cache (recommended) | `redis://localhost:6379` |
+| `ANTHROPIC_API_KEY` | ⚠️ Optional | Claude API key | User provides |
+| `GOOGLE_AI_API_KEY` | ⚠️ Optional | Gemini API key | User provides |
+| `OPENAI_API_KEY` | ⚠️ Optional | GPT-4o API key | User provides |
+| `NODE_ENV` | ⚠️ Optional | Environment mode | `development` or `production` |
+
+**Generate Required Keys:**
+```bash
+# Generate NEXTAUTH_SECRET
+openssl rand -base64 32
+
+# Generate ENCRYPTION_KEY
+openssl rand -base64 32
+```
 
 ```bash
 # .env.example
