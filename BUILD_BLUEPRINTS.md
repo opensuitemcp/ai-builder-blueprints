@@ -510,6 +510,8 @@ mycustomassistant/
 │       ├── tabs.tsx
 │       ├── toast.tsx
 │       └── ... (other shadcn components)
+├── types/
+│   └── next-auth.d.ts           # NextAuth type extensions
 ├── lib/
 │   ├── ai/
 │   │   ├── providers.ts          # Provider configuration
@@ -555,6 +557,37 @@ mycustomassistant/
 ```
 
 ## Key Implementation Details
+
+### 0. NextAuth Type Extensions (CRITICAL - Create First)
+
+> **⚠️ IMPORTANT**: Create this file BEFORE implementing Phase 2 to avoid TypeScript errors.
+
+```typescript
+// types/next-auth.d.ts
+import "next-auth";
+import "next-auth/jwt";
+
+declare module "next-auth" {
+  interface User {
+    id: string;
+  }
+  interface Session {
+    user: {
+      id: string;
+      email: string;
+      name?: string | null;
+    };
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+  }
+}
+```
+
+**Why this is needed:** NextAuth v4 doesn't include `id` property in Session by default. This extends the types to add it.
 
 ### 1. AI Provider Configuration
 
