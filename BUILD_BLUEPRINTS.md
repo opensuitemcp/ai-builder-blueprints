@@ -1652,8 +1652,16 @@ export class NetSuiteMCPClient {
 
   // Get all available MCP tools from NetSuite
   async getAvailableTools(): Promise<NetSuiteMCPTool[]> {
-    const response = await this.makeRequest("/services/mcp/v1/all");
-    return response.tools || [];
+    const response = await this.makeRequest("/services/mcp/v1/all", {
+      method: "POST",
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: crypto.randomUUID(),
+        method: "tools/list",
+        params: {},
+      }),
+    });
+    return response.result?.tools || [];
   }
 
   // Execute a specific MCP tool
@@ -1661,11 +1669,16 @@ export class NetSuiteMCPClient {
     const response = await this.makeRequest(`/services/mcp/v1/execute`, {
       method: "POST",
       body: JSON.stringify({
-        tool: toolName,
-        parameters: parameters,
+        jsonrpc: "2.0",
+        id: crypto.randomUUID(),
+        method: "tools/call",
+        params: {
+          name: toolName,
+          arguments: parameters,
+        },
       }),
     });
-    return response;
+    return response.result;
   }
 
   // Make authenticated request to NetSuite MCP API
