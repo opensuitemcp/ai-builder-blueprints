@@ -52,11 +52,34 @@ Before starting, ensure you have a clear project name. This will be used consist
 #### **Phase 1: Foundation & Setup** 🏗️
 
 1. **Next.js Setup** - Initialize project with TypeScript and Tailwind
-2. **Database Schema** - Set up PostgreSQL with Prisma
-3. **Basic UI Components** - Build core interface with shadcn/ui
-4. **Environment Configuration** - Set up environment variables
+2. **PostgreSQL Database Setup** - Set up database instance
+3. **Database Schema** - Set up PostgreSQL with Prisma
+4. **Basic UI Components** - Build core interface with shadcn/ui
+5. **Environment Configuration** - Set up environment variables
 
 **🛑 STOP HERE** - Let user test basic app structure
+
+> **AI Assistant Instructions - Critical PostgreSQL Setup**: BEFORE running `pnpm db:push`, you must ensure PostgreSQL is running. Prompt the user:
+>
+> "You need to set up a PostgreSQL database before proceeding. Here are your options:
+>
+> **Option 1 (Recommended - Docker):**
+>
+> ```bash
+> docker run --name mycustomassistant-db \\
+>   -e POSTGRES_USER=postgres \\
+>   -e POSTGRES_PASSWORD=postgres \\
+>   -e POSTGRES_DB=mycustomassistant \\
+>   -p 5432:5432 \\
+>   -d postgres:16-alpine
+> ```
+>
+> Then update `.env.local` with: `DATABASE_URL=\"postgresql://postgres:postgres@localhost:5432/mycustomassistant\"`
+>
+> **Option 2 (Local PostgreSQL):**
+> If you already have PostgreSQL installed, create a database and update `.env.local` with your connection string."
+>
+> Replace `mycustomassistant` with the user's actual project name throughout.
 
 > **AI Assistant Instructions**: After completing Phase 1, stop and ask the user to:
 >
@@ -67,10 +90,10 @@ Before starting, ensure you have a clear project name. This will be used consist
 
 #### **Phase 2: Authentication & Security** 🔐
 
-5. **NextAuth.js Setup** - Configure authentication system
-6. **Authentication UI** - Login/register pages
-7. **NetSuite OAuth 2.0 PKCE** - Implement OAuth flow
-8. **Security Features** - Encryption, rate limiting, CSRF protection
+6. **NextAuth.js Setup** - Configure authentication system
+7. **Authentication UI** - Login/register pages
+8. **NetSuite OAuth 2.0 PKCE** - Implement OAuth flow
+9. **Security Features** - Encryption, rate limiting, CSRF protection
 
 **🛑 STOP HERE** - Let user test NetSuite authentication
 
@@ -83,9 +106,9 @@ Before starting, ensure you have a clear project name. This will be used consist
 
 #### **Phase 3: NetSuite Integration** 📊
 
-9. **NetSuite MCP REST API** - Connect to native NetSuite API
-10. **Tool Implementation** - SuiteQL, saved searches, record operations
-11. **Web Search Integration** - DuckDuckGo search functionality
+10. **NetSuite MCP REST API** - Connect to native NetSuite API
+11. **Tool Implementation** - SuiteQL, saved searches, record operations
+12. **Web Search Integration** - DuckDuckGo search functionality
 
 **🛑 STOP HERE** - Let user test NetSuite data access
 
@@ -98,9 +121,9 @@ Before starting, ensure you have a clear project name. This will be used consist
 
 #### **Phase 4: AI Integration** 🤖
 
-12. **AI Provider Configuration** - Set up multi-provider system
-13. **Ollama Integration** - Configure self-hosted AI option
-14. **Model Selection Logic** - Implement smart provider selection
+13. **AI Provider Configuration** - Set up multi-provider system
+14. **Ollama Integration** - Configure self-hosted AI option
+15. **Model Selection Logic** - Implement smart provider selection
 
 **🛑 STOP HERE** - Let user test AI provider configuration
 
@@ -113,9 +136,9 @@ Before starting, ensure you have a clear project name. This will be used consist
 
 #### **Phase 5: Chat Interface** 💬
 
-15. **Chat UI Components** - Build streaming chat interface
-16. **Thread Management** - Implement conversation threads
-17. **Settings Panel** - User preferences and configuration
+16. **Chat UI Components** - Build streaming chat interface
+17. **Thread Management** - Implement conversation threads
+18. **Settings Panel** - User preferences and configuration
 
 **🛑 STOP HERE** - Let user test complete chat functionality
 
@@ -128,9 +151,9 @@ Before starting, ensure you have a clear project name. This will be used consist
 
 #### **Phase 6: Production Deployment** 🚀
 
-18. **Docker Configuration** - Production-ready containerization
-19. **CI/CD Pipeline** - Automated deployment
-20. **Monitoring & Logging** - Production observability
+19. **Docker Configuration** - Production-ready containerization
+20. **CI/CD Pipeline** - Automated deployment
+21. **Monitoring & Logging** - Production observability
 
 **🛑 STOP HERE** - Let user test production deployment
 
@@ -413,7 +436,6 @@ model Endpoint {
 
 ```
 mycustomassistant/
-├── BUILD_BLUEPRINTS.md           # Comprehensive build instructions
 ├── app/
 │   ├── (auth)/
 │   │   ├── login/
